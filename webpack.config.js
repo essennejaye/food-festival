@@ -1,6 +1,7 @@
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const path = require("path");
 const webpack = require("webpack");
+const WebpackPwaManifest = require("webpack-pwa-manifest");
 
 module.exports = {
     entry: {
@@ -11,38 +12,52 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].bundle.js'
+        filename: '[name].bundle.js',
     },
     module: {
         rules: [
             {
-                test: /\.jpg$/i,
+                test: /\.jpg$/,
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
-                            name(file) {
-                                return "[path][name].[ext]"
-                            },
+                            // name(file) {
+                            // return '[path][name].[ext]';
+                            name: '[path][name].[ext]',
+                            // },
                             publicPath: function (url) {
-                                return url.replace("../", "/assets/")
+                                return url.replace('../', '/assets/');
                             }
-                        }
+                        },
                     },
                     {
                         loader: 'image-webpack-loader'
                     }
-                ],
+                ]
             }
-        ],
+        ]
     },
     plugins: [
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"
         }),
-        new BundleAnalyzerPlugin({
-            analyzerMode: "static", // report outputs to an HTML file in dist
+        // new BundleAnalyzerPlugin({
+        //     analyzerMode: "static", // report outputs to an HTML file in dist
+        // })
+        new WebpackPwaManifest({
+            name: 'Food Event',
+            short_name: 'Foodies',
+            description: 'An app that allows you to view upcoming food events.',
+            background_color: '#ffffff',
+            fingerprints: false,
+            inject: false,
+            icons: [{
+                src: path.resolve('assets/img/icons/icon-512x512.png'),
+                sizes: [96, 128, 256, 384, 512],
+                destination: path.join('assets', 'icons')
+            }]
         })
     ],
     mode: 'development'

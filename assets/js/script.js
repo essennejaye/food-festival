@@ -1,7 +1,7 @@
-require("bootstrap");
-
 const img1 = require("../../assets/img/food-table.jpg");
 const img2 = require("../../assets/img/grill.jpg");
+
+require("bootstrap");
 
 $(document).ready(function () {
 
@@ -25,7 +25,7 @@ $(document).ready(function () {
 
   carouselSlides.forEach((slide, i) => {
     $('.carousel-inner').append(`
-  <div class="carousel-item fullscreen-carousel" style="background-image: url('${slide.img}')">
+  <div class="carousel-item fullscreen-carousel" style="background-image: url('${slide.img.default}')">
     <div class="d-flex h-100 align-items-center justify-content-center carousel-caption">
         <div class="container">
           <div class="row align-items-center justify-content-center">
